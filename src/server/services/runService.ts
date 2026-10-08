@@ -22,7 +22,9 @@ export async function runFull(input:FullRunInput):Promise<FullRunResult>{
   const chat=await runChat(message,input.mode,llm,input.case.mock_fault);
   const coupon=chat.output?await runCoupon(chat.output,profile,coupons,products,input.mode,llm):emptyStage<any>('coupon','CHAT_BLOCKED');
   const recommendation=chat.output&&coupon.output?await runRecommendation(chat.output,profile,coupon.output,products,input.mode,llm):emptyStage<any>('recommendation','UPSTREAM_BLOCKED');
-  const selected=input.selected_product_ids??input.case.selected_product_ids??recommendation.output?.recommended_products.slice(0,2).map((item:RecommendedProduct)=>item.product_id)??[];
+  // Comparison intentionally consumes the recommendation output, rather than
+  // a fixture-specific product list, so both sections always show the same set.
+  const selected=recommendation.output?.recommended_products.map((item:RecommendedProduct)=>item.product_id)??[];
   const comparison=chat.output?await runComparison(chat.output,selected,products,pdps,coupon.output?.discount_value??0,input.mode,llm):emptyStage<any>('comparison','CHAT_BLOCKED');
   const usageAfter=llm.usageSnapshot?.();
   const measuredUsage=usageBefore&&usageAfter?{input_tokens:Math.max(0,usageAfter.input_tokens-usageBefore.input_tokens),output_tokens:Math.max(0,usageAfter.output_tokens-usageBefore.output_tokens),estimated_cost_usd:Math.max(0,usageAfter.estimated_cost_usd-usageBefore.estimated_cost_usd)}:null;
