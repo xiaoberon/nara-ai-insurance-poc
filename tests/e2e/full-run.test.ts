@@ -9,8 +9,8 @@ describe('Full four-stage run',()=>{
     expect(run.audit.run_id).toMatch(/[0-9a-f-]{36}/);
     expect(run.stages.chat.output?.intent).toBe('renew_car_insurance');
     expect(run.stages.coupon.output?.decision).toBe('grant');
-    expect(run.stages.recommendation.output?.recommended_products.length).toBeGreaterThanOrEqual(2);
-    expect(run.stages.comparison.output?.products).toHaveLength(2);
+    expect(run.stages.recommendation.output?.recommended_products.map((item)=>item.product_id)).toEqual(['P008','P001','P005','P002']);
+    expect(run.stages.comparison.output?.products.map((item)=>item.product_id)).toEqual(['P008','P001','P005','P002']);
   });
 
   it('runs all 20 cases in all three modes and reports measured metrics',async()=>{
