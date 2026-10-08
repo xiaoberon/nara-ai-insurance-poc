@@ -12,7 +12,7 @@ describe('Recommendation stage',()=>{
     const need=(await runChat('Sedan车龄3年，两周内续保，预算900，担心水浸，日常通勤。','hybrid',llm)).output!;
     const coupon=(await runCoupon(need,users[0],coupons,products,'hybrid',llm)).output!;
     const result=await runRecommendation(need,users[0],coupon,products,'hybrid',llm);
-    expect(result.output?.recommended_products.map((x)=>x.product_id)).toEqual(['P008','P001','P005']);
+    expect(result.output?.recommended_products.map((x)=>x.product_id)).toEqual(['P008','P001','P005','P002']);
     expect(result.output?.excluded_products.find((x)=>x.product_id==='P004')?.reason_codes).toContain('PRODUCT_INACTIVE');
     expect(result.output?.recommended_products[0].score_breakdown.coverage).toBeGreaterThan(0);
     expect(Object.keys(result.output!.recommended_products[0].score_breakdown)).toEqual(['coverage','budget']);
