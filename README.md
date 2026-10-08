@@ -11,12 +11,6 @@ Nara 是一个基于虚构数据的保险助手项目，来自内部 AI Challeng
 | **PoC 可行性验证** | 验证 LLM 与规则引擎的混合决策方式，并对比三种运行模式 | [在线交互 Demo](https://nara-ai-insurance-poc.tangyiris.chatgpt.site) / 本仓库源码 |
 | **AI Demo 参赛作品** | 展示从用户需求理解、推荐、在线投保到流失识别与后台跟进的 Agent/Admin 业务闭环 | [最终参赛视频](https://my.feishu.cn/file/QV6sbiMlhoekrXxT16VcyIfJnQc?from=from_copylink) / [Figma 关键帧](https://www.figma.com/design/qDrQZjREMHG7DOBcmahceX/nara_shopee?node-id=0-1&t=gdx1QpTnOgnOZEsX-1) |
 
-## AI Demo 参赛作品
-
-这部分回答的是“AI 如何在完整业务流程中影响用户体验和转化”。用户侧 Agent 负责需求理解、推荐和投保引导；后台 Admin 聚合对话进度与流失信号，支持后续触达。
-
-制作过程以 [Figma 关键帧](https://www.figma.com/design/qDrQZjREMHG7DOBcmahceX/nara_shopee?node-id=0-1&t=gdx1QpTnOgnOZEsX-1) 与动效说明为输入，由 Codex 协助实现可演示网页，经人工校验、录制和剪辑后形成 [最终参赛成片](https://my.feishu.cn/file/QV6sbiMlhoekrXxT16VcyIfJnQc?from=from_copylink)。
-
 ## PoC 可行性验证
 
 PoC 验证了从用户咨询、优惠券决策、产品推荐到产品比较的四阶段决策流程。
@@ -48,6 +42,12 @@ PoC 验证了从用户咨询、优惠券决策、产品推荐到产品比较的�
 | `LLM Only` | 以模型输出为主，不具备相同的下游硬规则和来源校验门禁 |
 
 本项目不试图证明某种模型在所有场景都更好，而是验证 LLM 适合承担哪些工作，以及哪些环节需要保留可控的产品规则。
+
+## AI Demo 参赛作品
+
+这部分回答的是“AI 如何在完整业务流程中影响用户体验和转化”。用户侧 Agent 负责需求理解、推荐和投保引导；后台 Admin 聚合对话进度与流失信号，支持后续触达。
+
+制作过程以 [Figma 关键帧](https://www.figma.com/design/qDrQZjREMHG7DOBcmahceX/nara_shopee?node-id=0-1&t=gdx1QpTnOgnOZEsX-1) 与动效说明为输入，由 Codex 协助实现可演示网页，经人工校验、录制和剪辑后形成 [最终参赛成片](https://my.feishu.cn/file/QV6sbiMlhoekrXxT16VcyIfJnQc?from=from_copylink)。
 
 ## 本地运行
 
