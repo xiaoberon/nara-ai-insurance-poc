@@ -2,9 +2,26 @@
 
 > 在线体验：[nara-ai-insurance-poc.tangyiris.chatgpt.site](https://nara-ai-insurance-poc.tangyiris.chatgpt.site)
 
-Nara 是一个基于虚构数据的保险助手 PoC，来自内部 AI Challenge（第一名）。项目验证了从用户咨询、优惠券决策、产品推荐到产品比较的四阶段决策流程。
+Nara 是一个基于虚构数据的保险助手项目，来自内部 AI Challenge（第一名）。本仓库同时保留两类互补产出：一类用于验证决策方案是否可行，另一类用于完整呈现面向业务的 AI 产品体验。
 
-## 项目展示什么
+## 两类项目产出
+
+| 产出 | 目的 | 查看方式 |
+| --- | --- | --- |
+| **PoC 可行性验证** | 验证 LLM 与规则引擎的混合决策方式，并对比三种运行模式 | [在线交互 Demo](https://nara-ai-insurance-poc.tangyiris.chatgpt.site) / 本仓库源码 |
+| **AI Demo 参赛作品** | 展示从用户需求理解、推荐、在线投保到流失识别与后台跟进的 Agent/Admin 业务闭环 | [最终参赛视频](https://my.feishu.cn/file/QV6sbiMlhoekrXxT16VcyIfJnQc?from=from_copylink) / [Figma 关键帧](https://www.figma.com/design/qDrQZjREMHG7DOBcmahceX/nara_shopee?node-id=0-1&t=gdx1QpTnOgnOZEsX-1) |
+
+## AI Demo 参赛作品
+
+这部分回答的是“AI 如何在完整业务流程中影响用户体验和转化”。用户侧 Agent 负责需求理解、推荐和投保引导；后台 Admin 聚合对话进度与流失信号，支持后续触达。
+
+制作过程以 [Figma 关键帧](https://www.figma.com/design/qDrQZjREMHG7DOBcmahceX/nara_shopee?node-id=0-1&t=gdx1QpTnOgnOZEsX-1) 与动效说明为输入，由 Codex 协助实现可演示网页，经人工校验、录制和剪辑后形成 [最终参赛成片](https://my.feishu.cn/file/QV6sbiMlhoekrXxT16VcyIfJnQc?from=from_copylink)。
+
+## PoC 可行性验证
+
+PoC 验证了从用户咨询、优惠券决策、产品推荐到产品比较的四阶段决策流程。
+
+### 项目展示什么
 
 - 混合决策思路：LLM 可负责语义理解，资格、合规、定价和来源校验等高风险环节保留确定性规则。
 - 三种可对照模式：`Hybrid`、`Rules Only` 与 `LLM Only`。
@@ -13,14 +30,14 @@ Nara 是一个基于虚构数据的保险助手 PoC，来自内部 AI Challenge�
 
 公开网页仅使用虚构和脱敏数据，当前为 **Public Mock Demo**：不暴露 API Key、不产生付费模型调用，也不保留访问者输入。项目通过 `LLMProvider` 预留了服务端接入真实模型的接口；本仓库默认使用确定性的 Mock 实现。
 
-## 四阶段流程
+### 四阶段流程
 
 1. **Chat**：将自然语言需求整理为 `UserNeed` 结构，并识别缺失信息。
 2. **Voucher**：依次校验市场、用户分群、续保窗口、预算、频控、适用范围和折扣规则，再选择可用券。
 3. **Recommendation**：先进行产品硬过滤，再按保障匹配度（60%）与用券后价格相对预算（40%）排序。
 4. **Comparison**：仅从虚构 PDP 的可见内容中提取字段；没有证据的字段不补全，存在冲突时转人工核对。
 
-## 三种模式的意义
+### 三种模式的意义
 
 同一批案例会在三种模式下运行，用于观察不同方案的边界：
 
