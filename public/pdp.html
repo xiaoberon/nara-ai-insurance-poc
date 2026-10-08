@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nara 虚构产品详情页</title>
+  <style>
+    :root{font-family:Inter,"Microsoft YaHei",sans-serif;color:#17332b;background:#edf3ef}*{box-sizing:border-box}body{margin:0}.shell{max-width:920px;margin:0 auto;padding:28px}.back{display:inline-block;margin-bottom:16px;color:#146b55;text-decoration:none;font-weight:700}.pdp-product{background:#fff;border:1px solid #d9e4df;border-radius:20px;overflow:hidden;box-shadow:0 18px 55px #163d3020}.pdp-hero{padding:40px;background:linear-gradient(135deg,#103f34,#1b765f);color:#fff}.pdp-eyebrow{font-size:12px;letter-spacing:.16em}.pdp-hero h1{font-size:36px;margin:10px 0}.pdp-hero p{font-size:17px}.pdp-hero button{border:0;border-radius:10px;padding:13px 20px;background:#ff7257;color:#fff;font-weight:800;font-size:16px}.pdp-product section,.pdp-notice{margin:0;padding:24px 40px;border-bottom:1px solid #e4ece8}.pdp-product h2{font-size:20px;margin:0 0 10px}.pdp-product p{font-size:17px;line-height:1.75;margin:0}.pdp-notice{background:#fff5d9}.pdp-product footer{padding:20px 40px;color:#61736d;font-size:13px}.error{padding:30px;background:#fff;border-radius:12px;color:#9a3022}@media(max-width:620px){.shell{padding:12px}.pdp-hero,.pdp-product section,.pdp-notice{padding:24px}.pdp-hero h1{font-size:28px}}
+  </style>
+</head>
+<body><main class="shell"><a class="back" href="/">← 返回决策演示</a><div id="page">正在加载 PDP…</div></main>
+<script>
+  const id=new URLSearchParams(location.search).get('product_id');
+  const root=document.getElementById('page');
+  if(!id){root.innerHTML='<div class="error">缺少 product_id。</div>';}else{
+    fetch('/api/products/'+encodeURIComponent(id)+'/pdp').then(async response=>{if(!response.ok)throw new Error('找不到对应产品页面');return response.json();}).then(data=>{document.title=data.product_name+' · Nara PDP';root.innerHTML=data.html;}).catch(error=>{root.innerHTML='<div class="error">'+error.message+'</div>';});
+  }
+</script></body></html>
