@@ -1,67 +1,67 @@
 # Nara AI Insurance PoC
 
-> Public interactive demo: [nara-ai-insurance-poc.tangyiris.chatgpt.site](https://nara-ai-insurance-poc.tangyiris.chatgpt.site)
+> 在线体验：[nara-ai-insurance-poc.tangyiris.chatgpt.site](https://nara-ai-insurance-poc.tangyiris.chatgpt.site)
 
-Nara is a fictional insurance-assistant proof of concept built for an internal AI Challenge (1st place). It validates a four-stage decision flow for insurance consultation, voucher eligibility, product recommendation, and product comparison.
+Nara 是一个基于虚构数据的保险助手 PoC，来自内部 AI Challenge（第一名）。项目验证了从用户咨询、优惠券决策、产品推荐到产品比较的四阶段决策流程。
 
-## What this demonstrates
+## 项目展示什么
 
-- A hybrid decision design: semantic understanding can be handled by an LLM, while eligibility, compliance, pricing, and source validation remain deterministic.
-- Three comparable execution modes: `Hybrid`, `Rules Only`, and `LLM Only`.
-- Traceable outputs at each stage: structured fields, rule checks, decision reasons, source evidence, and manual-review flags.
-- A fixed test set covering normal consultation, missing information, voucher frequency limits, PDP conflicts, and product hard-filtering.
+- 混合决策思路：LLM 可负责语义理解，资格、合规、定价和来源校验等高风险环节保留确定性规则。
+- 三种可对照模式：`Hybrid`、`Rules Only` 与 `LLM Only`。
+- 每阶段均提供可追溯信息：结构化字段、规则校验、决策原因、来源证据及人工核对标记。
+- 固定测试集覆盖正常咨询、信息缺失、优惠券频控、PDP 字段冲突和产品硬过滤等情况。
 
-The public site runs entirely with fictional and masked data. It is configured as a **Public Mock Demo** so it exposes no API key, has no paid inference, and does not retain visitor inputs. The underlying `LLMProvider` interface was designed to support a real provider server-side; this repository intentionally defaults to the deterministic mock implementation.
+公开网页仅使用虚构和脱敏数据，当前为 **Public Mock Demo**：不暴露 API Key、不产生付费模型调用，也不保留访问者输入。项目通过 `LLMProvider` 预留了服务端接入真实模型的接口；本仓库默认使用确定性的 Mock 实现。
 
-## Four-stage flow
+## 四阶段流程
 
-1. **Chat** — converts natural-language needs into a structured `UserNeed` schema and identifies missing information.
-2. **Voucher** — applies market, segment, renewal window, budget, frequency, scope, and discount rules before choosing an eligible voucher.
-3. **Recommendation** — hard-filters products, then ranks coverage fit (60%) and post-voucher price versus budget (40%).
-4. **Comparison** — extracts only visible fictional PDP content, requires evidence for fields, and sends conflicts to manual review rather than guessing.
+1. **Chat**：将自然语言需求整理为 `UserNeed` 结构，并识别缺失信息。
+2. **Voucher**：依次校验市场、用户分群、续保窗口、预算、频控、适用范围和折扣规则，再选择可用券。
+3. **Recommendation**：先进行产品硬过滤，再按保障匹配度（60%）与用券后价格相对预算（40%）排序。
+4. **Comparison**：仅从虚构 PDP 的可见内容中提取字段；没有证据的字段不补全，存在冲突时转人工核对。
 
-## Why the three modes matter
+## 三种模式的意义
 
-The project uses the same cases to make the trade-offs visible:
+同一批案例会在三种模式下运行，用于观察不同方案的边界：
 
-| Mode | Decision approach |
+| 模式 | 决策方式 |
 | --- | --- |
-| Hybrid | Semantic understanding with constrained, auditable rule gates for high-risk decisions |
-| Rules Only | Deterministic patterns and rules throughout |
-| LLM Only | Semantic decisions without the same downstream hard-rule and evidence gates |
+| `Hybrid` | 使用语义理解，并在高风险决策处加入可审计的规则门禁 |
+| `Rules Only` | 全流程依赖确定性规则与模式匹配 |
+| `LLM Only` | 以模型输出为主，不具备相同的下游硬规则和来源校验门禁 |
 
-The point is not to claim that one model is universally better. It is to show where an LLM adds value, and where product constraints need deterministic control.
+本项目不试图证明某种模型在所有场景都更好，而是验证 LLM 适合承担哪些工作，以及哪些环节需要保留可控的产品规则。
 
-## Run locally
+## 本地运行
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open `http://127.0.0.1:5173`.
+打开 `http://127.0.0.1:5173`。
 
 ```bash
 npm test
 npm run build
 ```
 
-The current suite contains 28 unit and end-to-end checks.
+当前包含 28 项单元与端到端检查。
 
-## Data and scope
+## 数据与边界
 
-- All users, vehicles, vouchers, products, and PDP pages are fictional.
-- No Shopee, insurer, customer, policy, payment, or underwriting data is included.
-- `.env` is excluded from version control. Do not commit provider keys.
-- This is a validation prototype, not a production insurance service.
+- 用户、车辆、优惠券、产品和 PDP 页面均为虚构数据。
+- 不包含 Shopee、保险公司、客户、保单、支付或核保的真实数据。
+- `.env` 已排除在版本控制之外，请勿提交模型 Key。
+- 这是可行性验证原型，不是生产环境的保险服务。
 
-## Structure
+## 目录说明
 
 ```text
-src/client/       Interactive React validation surface
-src/server/data/  Fictional catalogue, cases, and expectations
-src/server/llm/   Provider interface and deterministic mock implementation
+src/client/       React 交互式验证界面
+src/server/data/  虚构数据、测试案例和预期结果
+src/server/llm/   Provider 接口与确定性 Mock 实现
 src/server/services/
-                  Chat, voucher, recommendation, comparison, and evaluation logic
-tests/            Unit and end-to-end validation
+                  Chat、优惠券、推荐、比较和评估逻辑
+tests/            单元与端到端验证
 ```
